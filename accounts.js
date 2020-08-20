@@ -40,7 +40,7 @@ router.get("/", async (req, res, next) => {
     }
 })
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
     try{
         const { id } = await db
             .select("*")
@@ -54,4 +54,14 @@ router.get("/:id", async (req, res) => {
     }
 })
 
+//CRUD - Update/put
+router.put("/:id", async(req, res, next) => {
+    try{
+        await db("accounts")
+            .update(req.body)
+            .where( "id", req.params.id )
+    } catch (err){
+        next(err);
+    }
+})
 module.exports = router;
