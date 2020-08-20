@@ -6,7 +6,9 @@ const { insert, where, del } = require("./data/dbConfig");
 //route
 const router = express.Router();
 
-//CRUD - Create/Insert(post)
+// ***/api/accounts***
+
+//CRUD - Create/post
 router.post("/", async (req, res) => {
     const accountsData = req.body;
     try{
@@ -27,3 +29,29 @@ router.post("/", async (req, res) => {
         })
     }
 })
+
+//CRUD - Read/get
+router.get("/", async (req, res, next) => {
+    try{
+        const accounts = await db.select("*").from("accounts")
+        res.json(accounts)
+    } catch (err) {
+        next(err)
+    }
+})
+
+router.get("/:id", async (req, res) => {
+    try{
+        const { id } = await db
+            .select("*")
+            .from("accounts")
+            .where("id", req.params.id)
+            .first()
+
+        res.json(id)
+    } catch (err){
+        next(err);
+    }
+})
+
+module.exports = router;
