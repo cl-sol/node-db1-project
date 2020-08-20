@@ -59,7 +59,7 @@ router.put("/:id", async (req, res, next) => {
     try{
         await db("accounts")
             .update(req.body)
-            .where( "id", req.params.id )
+            .where({ id: req.params.id })
     } catch (err){
         next(err);
     }
