@@ -55,12 +55,23 @@ router.get("/:id", async (req, res, next) => {
 })
 
 //CRUD - Update/put
-router.put("/:id", async(req, res, next) => {
+router.put("/:id", async (req, res, next) => {
     try{
         await db("accounts")
             .update(req.body)
             .where( "id", req.params.id )
     } catch (err){
+        next(err);
+    }
+})
+
+router.delete("/:id", async (req, res, next) => {
+    try{ 
+        await db("accounts")
+            .where("id", req.params.id)
+            .del()
+            res.status(204).end()
+    } catch(err) {
         next(err);
     }
 })
